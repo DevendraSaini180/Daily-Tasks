@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DashBoardActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     TextView text_name, text_email, text_password;
     Button btn_logout;
@@ -50,7 +50,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.commit();
-                Toast.makeText(DashBoardActivity.this, "Logout successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Logout successfully", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
