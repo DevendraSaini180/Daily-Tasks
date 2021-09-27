@@ -2,18 +2,19 @@ package com.devendrasaini.sharedpreferencesapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText rectArea, textPassword, rectCircle;
-    Button btnSave;
-
+    EditText onLongClickText, onClickText;
+    Button btnPress, btnLongPress;
+    RelativeLayout touchLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,42 +22,53 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         uiInitialization();
-        btnLogin();
+        startButton();
+        startTouchScreen();
     }
 
     public void uiInitialization() {
-        rectArea = findViewById(R.id.editTextName);
-        rectCircle = findViewById(R.id.editTextEmail);
-        btnSave = findViewById(R.id.button);
+        onClickText = findViewById(R.id.editTextOnClick);
+        onLongClickText = findViewById(R.id.editTextOnLongClick);
+        btnPress = findViewById(R.id.button);
+        btnLongPress = findViewById(R.id.button2);
+        touchLayout = findViewById(R.id.main_layout);
     }
-    public void btnLogin() {
-        btnSave.setOnClickListener(v -> {
-            interfaceDemo();
-            abstractDemo();
+    private void startButton() {
+        startOnClick();
+        startOnLongClick();
+    }
+    private void startOnLongClick() {
+        btnLongPress.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onLongClickText.setText("onLongClick method is called");
+                return false;
+            }
         });
     }
-    public void interfaceDemo() {
-        Bicycle bicycle = new Bicycle();
-        bicycle.changeGear(2);
-        bicycle.speedUp(3);
-        bicycle.applyBrakes(1);
-
-        Toast.makeText(this,"speed of bike is: "+ String.valueOf(bicycle.printStates()), Toast.LENGTH_SHORT).show();
-
-        Bike bike = new Bike();
-        bike.changeGear(1);
-        bike.speedUp(4);
-        bike.applyBrakes(3);
-
-        Toast.makeText(this,"speed of bike is: "+String.valueOf(bike.printStates()), Toast.LENGTH_SHORT).show();
+    private void startOnClick() {
+        btnPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickText.setText("onClick method is called");
+            }
+        });
     }
-    public void abstractDemo() {
-        Shape rect = new Rectangle(2, 3, "Rectangle");
-
-        Shape circle = new Circle(2, "Circle");
-
-        rectArea.setText("Area of rectangle: " +String.valueOf(rect.area()));
-
-        rectCircle.setText("Area of circle: " + String.valueOf(circle.area()));
+    private void startTouchScreen() {
+        touchLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        Toast.makeText(MainActivity.this, "Action Down Event", Toast.LENGTH_SHORT).show();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Toast.makeText(MainActivity.this, "Action Up Event", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 }

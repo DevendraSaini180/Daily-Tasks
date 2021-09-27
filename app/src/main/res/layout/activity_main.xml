@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main_layout"
     tools:context=".MainActivity">
 
 
@@ -11,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Your Details"
+        android:text="Event Listener Examples"
         android:textSize="18sp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
@@ -19,47 +20,50 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"/>
 
+
     <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="match_parent"
+        android:id="@+id/editTextOnClick"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Name"
-        android:gravity="center"
+        android:text=""
         android:layout_below="@id/textView"
-        android:layout_marginTop="140dp"
-        android:layout_centerHorizontal="true"/>
-
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:layout_below="@id/editTextName"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
-        android:hint="Email" />
+        android:gravity="center"
+        android:textColor="#0F1010"/>
 
     <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
+        android:id="@+id/editTextOnLongClick"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:text=""
+        android:layout_below="@id/editTextOnClick"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_margin="10dp"
-        android:layout_below="@id/editTextEmail"
-        android:layout_centerHorizontal="true"/>
+        android:textColor="#0F1010"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Press"
         android:textAllCaps="false"
-        android:background="@color/colorAccent"
-        android:layout_below="@id/editTextPassword"
+        android:background="#5B8F03DA"
+        android:layout_below="@id/editTextOnLongClick"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="70dp"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Long Press"
+        android:textAllCaps="false"
+        android:background="#FF9800"
+        android:layout_below="@id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
 
 
 </RelativeLayout>
