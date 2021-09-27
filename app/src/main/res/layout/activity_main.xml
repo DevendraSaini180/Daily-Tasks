@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Listener Examples"
+        android:text="Singleton Class Example"
         android:textSize="18sp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
@@ -22,48 +22,85 @@
 
 
     <EditText
-        android:id="@+id/editTextOnClick"
-        android:layout_width="wrap_content"
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:hint="Enter Text"
         android:layout_below="@id/textView"
         android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="#0F1010"/>
 
-    <EditText
-        android:id="@+id/editTextOnLongClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_below="@id/editTextOnClick"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textColor="#0F1010"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Press"
+        android:text="Save"
         android:textAllCaps="false"
         android:background="#5B8F03DA"
-        android:layout_below="@id/editTextOnLongClick"
+        android:layout_below="@id/editText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button"
+        android:layout_marginTop="10dp"
+        android:text="Helper Class Example"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter Number"
+        android:layout_below="@id/textView8"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textViewPrime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@id/editTextNumber"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:textColor="#0F1010"/>
+
+    <TextView
+        android:id="@+id/textViewFact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@id/textViewPrime"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="#0F1010"/>
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Long Press"
-        android:textAllCaps="false"
-        android:background="#FF9800"
-        android:layout_below="@id/button"
+        android:text="Calculate"
+        android:layout_below="@id/textViewFact"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:background="#C64CAF50"/>
 
 
 </RelativeLayout>

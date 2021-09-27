@@ -3,18 +3,17 @@ package com.devendrasaini.sharedpreferencesapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText onLongClickText, onClickText;
-    Button btnPress, btnLongPress;
-    RelativeLayout touchLayout;
+    EditText editText, editNumber;
+    TextView primeNumber, factorial;
+    Button btnSave, btnCalculate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,51 +22,49 @@ public class MainActivity extends AppCompatActivity {
 
         uiInitialization();
         startButton();
-        startTouchScreen();
+        startCalculationButton();
     }
 
     public void uiInitialization() {
-        onClickText = findViewById(R.id.editTextOnClick);
-        onLongClickText = findViewById(R.id.editTextOnLongClick);
-        btnPress = findViewById(R.id.button);
-        btnLongPress = findViewById(R.id.button2);
-        touchLayout = findViewById(R.id.main_layout);
+        editText = findViewById(R.id.editText);
+        editNumber = findViewById(R.id.editTextNumber);
+        primeNumber = findViewById(R.id.textViewPrime);
+        factorial = findViewById(R.id.textViewFact);
+        btnSave = findViewById(R.id.button);
+        btnCalculate = findViewById(R.id.button2);
     }
     private void startButton() {
-        startOnClick();
-        startOnLongClick();
-    }
-    private void startOnLongClick() {
-        btnLongPress.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                onLongClickText.setText("onLongClick method is called");
-                return false;
-            }
-        });
-    }
-    private void startOnClick() {
-        btnPress.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickText.setText("onClick method is called");
+                if(editText.getText().toString().isEmpty())
+                {
+                    editText.setError("Enter Text");
+                }
+                else
+                {
+                    String editValue = editText.getText().toString();
+                    SingletonExample singletonexample = SingletonExample.getInstance();
+                    singletonexample.setText(editValue);
+                    Toast.makeText(MainActivity.this, singletonexample.getText(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-    private void startTouchScreen() {
-        touchLayout.setOnTouchListener(new View.OnTouchListener() {
+
+    public void startCalculationButton() {
+        btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction())
+            public void onClick(View v) {
+                if(Helper.isPrime(Integer.parseInt(editNumber.getText().toString())))
                 {
-                    case MotionEvent.ACTION_DOWN:
-                        Toast.makeText(MainActivity.this, "Action Down Event", Toast.LENGTH_SHORT).show();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        Toast.makeText(MainActivity.this, "Action Up Event", Toast.LENGTH_SHORT).show();
-                        break;
+                    primeNumber.setText(editNumber.getText().toString()+" is a Prime Number");
                 }
-                return true;
+                else
+                {
+                    primeNumber.setText(editNumber.getText().toString()+" is not a Prime Number");
+                }
+                factorial.setText("factorial of " + editNumber.getText().toString()+" = " + Helper.findFactorial(Integer.parseInt(editNumber.getText().toString())));
             }
         });
     }
