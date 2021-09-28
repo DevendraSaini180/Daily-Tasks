@@ -1,106 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:id="@+id/main_layout"
     tools:context=".MainActivity">
-
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Singleton Class Example"
-        android:textSize="18sp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
+        android:text="Picasso Library"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
-
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Text"
-        android:layout_below="@id/textView"
-        android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textColor="#0F1010"/>
-
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:background="#5B8F03DA"
-        android:layout_below="@id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button"
-        android:layout_marginTop="10dp"
-        android:text="Helper Class Example"
-        android:textSize="18sp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#437010"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"/>
+        android:layout_marginTop="20dp"/>
 
-    <EditText
-        android:id="@+id/editTextNumber"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Number"
-        android:layout_below="@id/textView8"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:inputType="number" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"/>
 
-    <TextView
-        android:id="@+id/textViewPrime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_below="@id/editTextNumber"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:textColor="#0F1010"/>
-
-    <TextView
-        android:id="@+id/textViewFact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_below="@id/textViewPrime"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="#0F1010"/>
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate"
-        android:layout_below="@id/textViewFact"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:textAllCaps="false"
-        android:background="#C64CAF50"/>
-
-
-</RelativeLayout>
+</LinearLayout>
