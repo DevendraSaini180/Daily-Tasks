@@ -24,7 +24,10 @@
             android:id="@+id/imageList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"/>
+            android:textSize="18sp"
+            android:textColor="#7CB342"
+            android:padding="10dp"
+            android:autoLink="web"/>
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
