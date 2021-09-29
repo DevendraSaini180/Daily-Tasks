@@ -3,15 +3,21 @@ package com.devendrasaini.sharedpreferencesapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.widget.ListView;
 
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    String URL = "https://images.unsplash.com/photo-1631473126856-d1fdf3bf9c4f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=435&q=80";
-    ImageView image, glideImage;
+    String mUrl = "https://picsum.photos/200";
+    ListView mPhotos;
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,18 +25,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         uiInitialization();
-        loadImageUrlFromPicasso();
+        retrofitBuilder();
+        getApiInstance();
     }
     public void uiInitialization() {
-        image = findViewById(R.id.imageView);
-        glideImage = findViewById(R.id.imageViewG);
+        mPhotos = findViewById(R.id.imageList);
     }
-    public void loadImageUrlFromPicasso() {
-        Picasso.with(this)
-                .load(URL)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_background)
-                .fit()
-                .into(image);
+
+    public void retrofitBuilder() {
+        retrofit = new Retrofit.Builder().baseUrl(mUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    public void getApiInstance() {
+        PhotosAPICall photosAPICall = retrofit.create(PhotosAPICall.class);
+        Call<List<PhotosModel>> modelCall = photosAPICall.getPhotos();
+        modelCall.enqueue(new Callback<List<PhotosModel>>() {
+            @Override
+            public void onResponse(Call<List<PhotosModel>> call, Response<List<PhotosModel>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<PhotosModel>> call, Throwable t) {
+
+            }
+        });
     }
 }

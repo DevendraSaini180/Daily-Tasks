@@ -9,29 +9,18 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Picasso Library"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#437010"
-        android:textSize="20sp"
+        android:text="Retrofit Library"
+        android:layout_margin="10dp"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:textSize="20sp"
+        android:textColor="#1E88E5"/>
 
-    <ImageView
-        android:id="@+id/imageView"
+    <ListView
+        android:id="@+id/imageList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textView"
-        android:layout_weight="1"/>
-
-    <ImageView
-        android:id="@+id/imageViewG"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        />
+        android:layout_margin="10dp"/>
 
 </LinearLayout>
