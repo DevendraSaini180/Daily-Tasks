@@ -38,7 +38,7 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
 
     @Override
     public void onBindViewHolder(@NonNull PhotosViewHolder holder, int position) {
-        Picasso.get().load(photos.get(position).getUrl()).into(holder.mImage);
+        Picasso.get().load(photos.get(position).getDownload_url()).into(holder.mImage);
         holder.mId.setText(photos.get(position).getId());
         holder.mAuthor.setText(photos.get(position).getAuthor());
     }
