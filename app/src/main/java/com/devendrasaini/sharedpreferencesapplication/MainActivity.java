@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -48,12 +49,21 @@ public class MainActivity extends AppCompatActivity {
         photosAPICall.getPhotos().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<PhotosModel>>() {
-                    @Override
-                    public void accept(List<PhotosModel> photosModels) throws Throwable {
-                        PhotosListAdapter photosListAdapter = new PhotosListAdapter(photosModels);
-                        mRecyclerView.setAdapter(photosListAdapter);
+
+                       @Override
+                       public void accept(List<PhotosModel> photosModels) throws Throwable {
+                           PhotosListAdapter photosListAdapter = new PhotosListAdapter(getApplication(), photosModels);
+                           mRecyclerView.setAdapter(photosListAdapter);
+                           Toast.makeText(MainActivity.this, photosModels.toString(), Toast.LENGTH_SHORT).show();
+                       }
+                       },
+                    new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Throwable {
+                            Toast.makeText(MainActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                });
+                );
 
     }
 
@@ -62,4 +72,5 @@ public class MainActivity extends AppCompatActivity {
                 (getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
     }
+
 }
