@@ -1,11 +1,20 @@
 package com.devendrasaini.sharedpreferencesapplication;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PhotosModel {
+
+    @SerializedName("id")
     private String id;
+    @SerializedName("author")
     private String author;
+    @SerializedName("width")
     private float width;
+    @SerializedName("height")
     private float height;
+    @SerializedName("url")
     private String url;
+    @SerializedName("download_url")
     private String download_url;
 
 
