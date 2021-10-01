@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    String mUrl = "https://picsum.photos/";
+    String mUrl = "https://picsum.photos/v2/";
     RecyclerView mRecyclerView;
     Retrofit retrofit;
 
@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                        public void accept(List<PhotosModel> photosModels) throws Throwable {
                            PhotosListAdapter photosListAdapter = new PhotosListAdapter(getApplication(), photosModels);
                            mRecyclerView.setAdapter(photosListAdapter);
-                           Toast.makeText(MainActivity.this, photosModels.toString(), Toast.LENGTH_SHORT).show();
                        }
                        },
                     new Consumer<Throwable>() {
