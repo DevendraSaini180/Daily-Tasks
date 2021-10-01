@@ -6,18 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
 public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.PhotosViewHolder> {
 
     Context context;
-    List<PhotosModel> photos ;
+    List<PhotosModel> photos;
 
     public PhotosListAdapter(Context context, List<PhotosModel> photos) {
         this.context = context;
@@ -38,9 +41,19 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
 
     @Override
     public void onBindViewHolder(@NonNull PhotosViewHolder holder, int position) {
-        Picasso.get().load(photos.get(position).getDownload_url()).into(holder.mImage);
+        Glide.with(holder.itemView).load(photos.get(position)
+                .getDownload_url())
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .apply(new RequestOptions().override(1080, 1440))
+                .into(holder.mImage);
+
         holder.mId.setText(photos.get(position).getId());
         holder.mAuthor.setText(photos.get(position).getAuthor());
+        holder.itemView.setOnClickListener(v -> {
+            Toast.makeText(holder.itemView.getContext(), photos.get(position).getAuthor(), Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     @Override
@@ -51,6 +64,7 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
     public static class PhotosViewHolder extends RecyclerView.ViewHolder {
         TextView mId, mAuthor;
         ImageView mImage;
+
         public PhotosViewHolder(@NonNull View itemView) {
             super(itemView);
             mId = itemView.findViewById(R.id.textViewId);

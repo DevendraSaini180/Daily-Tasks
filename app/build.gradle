@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.devendrasaini.sharedpreferencesapplication"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -31,6 +31,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -47,4 +48,14 @@ dependencies {
 
     // Picasso library
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.3.1")
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
+
+
 }

@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    app:cardCornerRadius="8dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:padding="10dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
-
-    <TextView
-        android:id="@+id/textViewId"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:padding="10dp"
-        android:textColor="#090909"
-        android:textSize="18sp"/>
-    <TextView
-        android:id="@+id/textViewAuthor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:padding="10dp"
-        android:textColor="#090909"
-        android:textSize="18sp"/>
+        android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/textViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="5dp"
+            android:text=""
+            android:textColor="#090909"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textViewAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="5dp"
+            android:text=""
+            android:textColor="#090909"
+            android:textSize="18sp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>
