@@ -1,0 +1,334 @@
+Index: app/src/main/java/com/devendrasaini/sharedpreferencesapplication/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.devendrasaini.sharedpreferencesapplication;\n\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.recyclerview.widget.LinearLayoutManager;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport android.os.Bundle;\n\nimport java.util.List;\n\nimport io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;\nimport io.reactivex.rxjava3.functions.Consumer;\nimport io.reactivex.rxjava3.schedulers.Schedulers;\nimport retrofit2.Retrofit;\nimport retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;\nimport retrofit2.converter.gson.GsonConverterFactory;\n\npublic class MainActivity extends AppCompatActivity {\n\n    String mUrl = \"https://picsum.photos/\";\n    RecyclerView mRecyclerView;\n    Retrofit retrofit;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_main);\n\n        uiInitialization();\n        retrofitBuilder();\n        getApiInstance();\n        getLayoutManager();\n    }\n    public void uiInitialization() {\n        mRecyclerView = findViewById(R.id.recyclerView);\n    }\n\n    public void retrofitBuilder() {\n        retrofit = new Retrofit.Builder().baseUrl(mUrl)\n                .addConverterFactory(GsonConverterFactory.create())\n                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())\n                .build();\n    }\n\n    public void getApiInstance() {\n        PhotosAPIService photosAPICall = retrofit.create(PhotosAPIService.class);\n\n        photosAPICall.getPhotos().subscribeOn(Schedulers.io())\n                .observeOn(AndroidSchedulers.mainThread())\n                .subscribe(new Consumer<List<PhotosModel>>() {\n                    @Override\n                    public void accept(List<PhotosModel> photosModels) throws Throwable {\n                        PhotosListAdapter photosListAdapter = new PhotosListAdapter(photosModels);\n                        mRecyclerView.setAdapter(photosListAdapter);\n                    }\n                });\n\n    }\n\n    public void getLayoutManager() {\n        LinearLayoutManager layoutManager = new LinearLayoutManager\n                (getApplicationContext(), LinearLayoutManager.VERTICAL, false);\n        mRecyclerView.setLayoutManager(layoutManager);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/MainActivity.java b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/MainActivity.java
+--- a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/MainActivity.java	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/MainActivity.java	(date 1633001192962)
+@@ -1,11 +1,12 @@
+ package com.devendrasaini.sharedpreferencesapplication;
+ 
++import android.os.Bundle;
++import android.widget.Toast;
++
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+-import android.os.Bundle;
+-
+ import java.util.List;
+ 
+ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+@@ -17,7 +18,7 @@
+ 
+ public class MainActivity extends AppCompatActivity {
+ 
+-    String mUrl = "https://picsum.photos/";
++    String mUrl = "https://picsum.photos/v2/";
+     RecyclerView mRecyclerView;
+     Retrofit retrofit;
+ 
+@@ -31,6 +32,7 @@
+         getApiInstance();
+         getLayoutManager();
+     }
++
+     public void uiInitialization() {
+         mRecyclerView = findViewById(R.id.recyclerView);
+     }
+@@ -52,6 +54,13 @@
+                     public void accept(List<PhotosModel> photosModels) throws Throwable {
+                         PhotosListAdapter photosListAdapter = new PhotosListAdapter(photosModels);
+                         mRecyclerView.setAdapter(photosListAdapter);
++                        Toast.makeText(MainActivity.this, photosModels.toString(), Toast.LENGTH_SHORT).show();
++
++                    }
++                }, new Consumer<Throwable>() {
++                    @Override
++                    public void accept(Throwable throwable) throws Throwable {
++                        Toast.makeText(MainActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                     }
+                 });
+ 
+Index: app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosListAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.devendrasaini.sharedpreferencesapplication;\n\nimport android.content.Context;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.TextView;\n\nimport androidx.annotation.NonNull;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport com.squareup.picasso.Picasso;\nimport com.squareup.picasso.Target;\n\nimport java.util.List;\n\npublic class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.PhotosViewHolder> {\n\n    Context context;\n    List<PhotosModel> photos;\n\n    public PhotosListAdapter(List<PhotosModel> photos) {\n        this.photos = photos;\n    }\n\n    @NonNull\n    @Override\n    public PhotosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n        LayoutInflater inflater = LayoutInflater.from(parent.getContext());\n        View view = inflater.inflate(R.layout.list_photos_layout, parent, false);\n        PhotosListAdapter.PhotosViewHolder photosViewHolder = new PhotosListAdapter.PhotosViewHolder(view);\n        return photosViewHolder;\n    }\n\n    @Override\n    public void onBindViewHolder(@NonNull PhotosViewHolder holder, int position) {\n        holder.mId.setText(photos.get(position).getId());\n        holder.mAuthor.setText(photos.get(position).getAuthor());\n        Picasso.with(context).load(photos.get(position).getUrl()).into((Target) holder.mImage);\n    }\n\n    @Override\n    public int getItemCount() {\n        return photos.size();\n    }\n\n    public class PhotosViewHolder extends RecyclerView.ViewHolder {\n        TextView mId, mAuthor, mImage;\n        public PhotosViewHolder(@NonNull View itemView) {\n            super(itemView);\n            mId = itemView.findViewById(R.id.textViewId);\n            mAuthor = itemView.findViewById(R.id.textViewAuthor);\n            mImage = itemView.findViewById(R.id.imageView);\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosListAdapter.java b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosListAdapter.java
+--- a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosListAdapter.java	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosListAdapter.java	(date 1633001857552)
+@@ -4,6 +4,7 @@
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.ImageView;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -36,7 +37,7 @@
+     public void onBindViewHolder(@NonNull PhotosViewHolder holder, int position) {
+         holder.mId.setText(photos.get(position).getId());
+         holder.mAuthor.setText(photos.get(position).getAuthor());
+-        Picasso.with(context).load(photos.get(position).getUrl()).into((Target) holder.mImage);
++        Picasso.get().load(photos.get(position).getDownload_url()).into( holder.mImage);
+     }
+ 
+     @Override
+@@ -45,7 +46,8 @@
+     }
+ 
+     public class PhotosViewHolder extends RecyclerView.ViewHolder {
+-        TextView mId, mAuthor, mImage;
++        TextView mId, mAuthor;
++        ImageView mImage;
+         public PhotosViewHolder(@NonNull View itemView) {
+             super(itemView);
+             mId = itemView.findViewById(R.id.textViewId);
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\n\nandroid {\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    compileSdkVersion 30\n    buildToolsVersion '30.0.3'\n\n    defaultConfig {\n        applicationId \"com.devendrasaini.sharedpreferencesapplication\"\n        minSdkVersion 16\n        targetSdkVersion 30\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n}\n\ndependencies {\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n    implementation 'androidx.appcompat:appcompat:1.3.1'\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'\n    implementation 'androidx.recyclerview:recyclerview:1.2.1'\n    testImplementation 'junit:junit:4.12'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\n\n    // Retrofit library\n    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'\n    implementation 'com.squareup.retrofit2:retrofit:2.9.0'\n    implementation 'com.google.code.gson:gson:2.8.5'\n\n    //RxJava Library\n    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'\n    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'\n    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'\n\n    // Picasso library\n    implementation 'com.squareup.picasso:picasso:2.5.2'\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/build.gradle	(date 1633001831236)
+@@ -46,5 +46,5 @@
+     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+ 
+     // Picasso library
+-    implementation 'com.squareup.picasso:picasso:2.5.2'
++    implementation 'com.squareup.picasso:picasso:2.71828'
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/list_photos_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n    <ImageView\n        android:id=\"@+id/imageView\"\n        android:layout_alignParentTop=\"true\"\n        android:layout_centerHorizontal=\"true\"\n        android:padding=\"10dp\"\n        android:layout_margin=\"10dp\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"/>\n\n    <TextView\n        android:id=\"@+id/textViewId\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:padding=\"10dp\"\n        android:text=\"\"\n        android:textColor=\"#090909\"\n        android:layout_below=\"@id/imageView\"\n        android:layout_centerHorizontal=\"true\"\n        android:textSize=\"18sp\"\n        android:layout_margin=\"10dp\"/>\n    <TextView\n        android:id=\"@+id/textViewAuthor\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:padding=\"10dp\"\n        android:text=\"\"\n        android:textColor=\"#090909\"\n        android:layout_below=\"@id/textViewId\"\n        android:layout_centerHorizontal=\"true\"\n        android:textSize=\"18sp\"\n        android:layout_margin=\"10dp\"/>\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/list_photos_layout.xml b/app/src/main/res/layout/list_photos_layout.xml
+--- a/app/src/main/res/layout/list_photos_layout.xml	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/src/main/res/layout/list_photos_layout.xml	(date 1633017755100)
+@@ -1,39 +1,40 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout
+-    xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+-    android:layout_height="match_parent">
++    android:layout_height="wrap_content"
++    android:orientation="vertical">
+ 
+     <ImageView
+         android:id="@+id/imageView"
++        android:layout_width="match_parent"
++        android:layout_height="250dp"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+-        android:padding="10dp"
+-        android:layout_margin="10dp"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"/>
++        android:layout_marginHorizontal="10dp"
++        android:padding="10dp" />
+ 
+     <TextView
+         android:id="@+id/textViewId"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
++        android:layout_below="@id/imageView"
++        android:layout_centerHorizontal="true"
++        android:layout_marginHorizontal="10dp"
+         android:padding="10dp"
+         android:text=""
+         android:textColor="#090909"
+-        android:layout_below="@id/imageView"
+-        android:layout_centerHorizontal="true"
+-        android:textSize="18sp"
+-        android:layout_margin="10dp"/>
++        android:textSize="18sp" />
++
+     <TextView
+         android:id="@+id/textViewAuthor"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
++        android:layout_below="@id/textViewId"
++        android:layout_centerHorizontal="true"
++        android:layout_marginHorizontal="10dp"
+         android:padding="10dp"
+         android:text=""
+         android:textColor="#090909"
+-        android:layout_below="@id/textViewId"
+-        android:layout_centerHorizontal="true"
+-        android:textSize="18sp"
+-        android:layout_margin="10dp"/>
++        android:textSize="18sp" />
+ 
+-</RelativeLayout>
+\ No newline at end of file
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.devendrasaini.sharedpreferencesapplication\">\n    <uses-permission android:name=\"android.permission.INTERNET\"/>\n\n    <application\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <activity android:name=\".MainActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/src/main/AndroidManifest.xml	(date 1633001160642)
+@@ -9,6 +9,7 @@
+         android:label="@string/app_name"
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
++        android:usesCleartextTraffic="true"
+         android:theme="@style/AppTheme">
+         <activity android:name=".MainActivity">
+             <intent-filter>
+Index: app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.devendrasaini.sharedpreferencesapplication;\n\npublic class PhotosModel {\n    private String id;\n    private String author;\n    private float width;\n    private float height;\n    private String url;\n    private String download_url;\n\n\n    // Getter Methods\n\n    public String getId() {\n        return id;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public float getWidth() {\n        return width;\n    }\n\n    public float getHeight() {\n        return height;\n    }\n\n    public String getUrl() {\n        return url;\n    }\n\n    public String getDownload_url() {\n        return download_url;\n    }\n\n    // Setter Methods\n\n    public void setId(String id) {\n        this.id = id;\n    }\n\n    public void setAuthor(String author) {\n        this.author = author;\n    }\n\n    public void setWidth(float width) {\n        this.width = width;\n    }\n\n    public void setHeight(float height) {\n        this.height = height;\n    }\n\n    public void setUrl(String url) {\n        this.url = url;\n    }\n\n    public void setDownload_url(String download_url) {\n        this.download_url = download_url;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosModel.java b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosModel.java
+--- a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosModel.java	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosModel.java	(date 1633000763209)
+@@ -1,11 +1,26 @@
+ package com.devendrasaini.sharedpreferencesapplication;
+ 
++import com.google.gson.annotations.Expose;
++import com.google.gson.annotations.SerializedName;
++
+ public class PhotosModel {
++    @SerializedName("id")
++    @Expose
+     private String id;
++    @SerializedName("author")
++    @Expose
+     private String author;
++    @SerializedName("width")
++    @Expose
+     private float width;
++    @SerializedName("height")
++    @Expose
+     private float height;
++    @SerializedName("url")
++    @Expose
+     private String url;
++    @SerializedName("download_url")
++    @Expose
+     private String download_url;
+ 
+ 
+Index: app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosAPIService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.devendrasaini.sharedpreferencesapplication;\n\nimport java.util.List;\n\nimport io.reactivex.rxjava3.core.Observable;\nimport retrofit2.http.GET;\n\npublic interface PhotosAPIService {\n    @GET(\"v2/list\")\n    Observable<List<PhotosModel>> getPhotos();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosAPIService.java b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosAPIService.java
+--- a/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosAPIService.java	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/app/src/main/java/com/devendrasaini/sharedpreferencesapplication/PhotosAPIService.java	(date 1633001192960)
+@@ -6,6 +6,6 @@
+ import retrofit2.http.GET;
+ 
+ public interface PhotosAPIService {
+-    @GET("v2/list")
++    @GET("list")
+     Observable<List<PhotosModel>> getPhotos();
+ }
+Index: .idea/runConfigurations.xml
+===================================================================
+diff --git a/.idea/runConfigurations.xml b/.idea/runConfigurations.xml
+deleted file mode 100644
+--- a/.idea/runConfigurations.xml	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ /dev/null	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
+@@ -1,12 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RunConfigurationProducerService">
+-    <option name="ignoredProducers">
+-      <set>
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
+-      </set>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/.idea/misc.xml	(date 1633001833951)
+@@ -1,6 +1,13 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="DesignSurface">
++    <option name="filePathToZoomLevelMap">
++      <map>
++        <entry key="app/src/main/res/layout/list_photos_layout.xml" value="0.1503623188405797" />
++      </map>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 1c2d8a147eb2b0a82cdee2424d2ae55fab3e66ca)
++++ b/.idea/gradle.xml	(date 1633000332278)
+@@ -4,7 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="PLATFORM" />
++        <option name="testRunner" value="GRADLE" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleJvm" value="1.8" />
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1633000332281)
++++ b/.idea/compiler.xml	(date 1633000332281)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
