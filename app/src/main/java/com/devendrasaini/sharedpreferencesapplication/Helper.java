@@ -1,6 +1,8 @@
 package com.devendrasaini.sharedpreferencesapplication;
 
-public class Helper {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Helper extends AppCompatActivity {
     /*
     Provides common methods which are required by multiple classes in the project.
     Helper methods are generally public and static so that these can be invoked independently.

@@ -1,7 +1,5 @@
 package com.devendrasaini.sharedpreferencesapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Helper {
 
     EditText editText, editNumber;
     TextView primeNumber, factorial;
@@ -33,16 +31,14 @@ public class MainActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.button);
         btnCalculate = findViewById(R.id.button2);
     }
+
     private void startButton() {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editText.getText().toString().isEmpty())
-                {
+                if (editText.getText().toString().isEmpty()) {
                     editText.setError("Enter Text");
-                }
-                else
-                {
+                } else {
                     String editValue = editText.getText().toString();
                     SingletonExample singletonexample = SingletonExample.getInstance();
                     singletonexample.setText(editValue);
@@ -56,15 +52,12 @@ public class MainActivity extends AppCompatActivity {
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Helper.isPrime(Integer.parseInt(editNumber.getText().toString())))
-                {
-                    primeNumber.setText(editNumber.getText().toString()+" is a Prime Number");
+                if (Helper.isPrime(Integer.parseInt(editNumber.getText().toString()))) {
+                    primeNumber.setText(editNumber.getText().toString() + " is a Prime Number");
+                } else {
+                    primeNumber.setText(editNumber.getText().toString() + " is not a Prime Number");
                 }
-                else
-                {
-                    primeNumber.setText(editNumber.getText().toString()+" is not a Prime Number");
-                }
-                factorial.setText("factorial of " + editNumber.getText().toString()+" = " + Helper.findFactorial(Integer.parseInt(editNumber.getText().toString())));
+                factorial.setText("factorial of " + editNumber.getText().toString() + " = " + Helper.findFactorial(Integer.parseInt(editNumber.getText().toString())));
             }
         });
     }
