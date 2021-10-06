@@ -1,13 +1,27 @@
 package com.devendrasaini.sharedpreferencesapplication.di;
 
-import com.devendrasaini.sharedpreferencesapplication.car.DieselEngine;
+import com.devendrasaini.sharedpreferencesapplication.events.DieselEngine;
+import com.devendrasaini.sharedpreferencesapplication.events.Engine;
 
-import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 
 @Module
-public abstract class DieselEngineModule {
+public class DieselEngineModule {
 
-    @Binds
-    abstract DieselEngine bindEngine(DieselEngine engine);
+    private int horsePower;
+
+    public DieselEngineModule(int horsePower) {
+        this.horsePower = horsePower;
+    }
+
+    @Provides
+    int provideHorsePower() {
+        return horsePower;
+    }
+
+    @Provides
+    Engine provideEngine(DieselEngine engine) {
+        return engine;
+    }
 }

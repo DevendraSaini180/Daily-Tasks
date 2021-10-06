@@ -1,4 +1,4 @@
-package com.devendrasaini.sharedpreferencesapplication.car;
+package com.devendrasaini.sharedpreferencesapplication.events;
 
 import android.util.Log;
 

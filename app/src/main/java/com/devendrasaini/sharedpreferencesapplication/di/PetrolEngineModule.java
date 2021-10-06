@@ -1,6 +1,7 @@
 package com.devendrasaini.sharedpreferencesapplication.di;
 
-import com.devendrasaini.sharedpreferencesapplication.car.PetrolEngine;
+import com.devendrasaini.sharedpreferencesapplication.events.Engine;
+import com.devendrasaini.sharedpreferencesapplication.events.PetrolEngine;
 
 import dagger.Binds;
 import dagger.Module;
@@ -9,5 +10,5 @@ import dagger.Module;
 public abstract class PetrolEngineModule {
 
     @Binds
-    abstract PetrolEngine bindEngine(PetrolEngine engine);
+    abstract Engine bindEngine(PetrolEngine engine);
 }

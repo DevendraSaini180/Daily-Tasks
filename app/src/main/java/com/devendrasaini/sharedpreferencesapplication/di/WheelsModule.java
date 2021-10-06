@@ -1,14 +1,14 @@
 package com.devendrasaini.sharedpreferencesapplication.di;
 
-import com.devendrasaini.sharedpreferencesapplication.car.Rims;
-import com.devendrasaini.sharedpreferencesapplication.car.Tires;
-import com.devendrasaini.sharedpreferencesapplication.car.Wheels;
+import com.devendrasaini.sharedpreferencesapplication.events.Rims;
+import com.devendrasaini.sharedpreferencesapplication.events.Tires;
+import com.devendrasaini.sharedpreferencesapplication.events.Wheels;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class WheelsModule {
+public abstract class WheelsModule {
 
     @Provides
     static Rims provideRims() {
