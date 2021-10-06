@@ -14,7 +14,31 @@
         android:text="@string/title"
         android:padding="8dp"
         android:textSize="18sp"
+        android:layout_gravity="center"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txtViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"/>
+    
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/postsList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:autoLink="web"
+            android:gravity="center"/>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -14,11 +14,6 @@ public interface CarComponent {
     Car getCar();
     void inject(MainActivity mainActivity);
 
-    /*
-    The inject method is used to tell Dagger that MainActivity wants to access DAG(Directed Acyclic Graph)
-    and Dagger should provide all Dependencies that the MainActivity request.
-     */
-
     @Component.Builder
     interface Builder {
 
