@@ -1,14 +1,11 @@
-package com.devendrasaini.sharedpreferencesapplication.model;
+package com.devendrasaini.sharedpreferencesapplication.view;
 
-//import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import javax.inject.Inject;
 
 public class PhotosModel {
-
-    //@Generated("jsonschema2pojo")
 
     @SerializedName("id")
     @Expose
@@ -29,6 +26,7 @@ public class PhotosModel {
     @Expose
     private String download_url;
 
+
     @Inject
     public PhotosModel(String id, String author, float width, float height, String url, String download_url) {
         this.id = id;
@@ -38,9 +36,6 @@ public class PhotosModel {
         this.url = url;
         this.download_url = download_url;
     }
-
-
-    // Getter Methods
 
     public String getId() {
         return id;
@@ -91,4 +86,5 @@ public class PhotosModel {
     public void setDownload_url(String download_url) {
         this.download_url = download_url;
     }
+
 }
