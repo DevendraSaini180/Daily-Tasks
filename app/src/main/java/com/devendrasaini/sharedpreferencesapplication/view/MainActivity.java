@@ -1,9 +1,13 @@
 package com.devendrasaini.sharedpreferencesapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devendrasaini.sharedpreferencesapplication.R;
 
@@ -24,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     PhotoApiService apiService;
 
-    private TextView name, mApiResult;
+
+    TextView name;
+    RecyclerView recyclerView;
+    PhotoListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void uiInitialization() {
         name = findViewById(R.id.txtViewName);
-        mApiResult = findViewById(R.id.photoList);
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     public void getUserComoponentInterface() {
@@ -50,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         userComponent.inject(this);
     }
 
+    @SuppressLint("SetTextI18n")
     public void setUI() {
         name.setText(user.display() +",My name is "+ user.getFirstName() + " " + user.getLastName());
     }
@@ -59,26 +67,15 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<PhotosModel>>() {
             @Override
             public void onResponse(Call<List<PhotosModel>> call, Response<List<PhotosModel>> response) {
-                if(!response.isSuccessful()) {
-                    mApiResult.setText("Code: " + response.code());
-                } else {
-                    List<PhotosModel> photos = response.body();
-                    for(PhotosModel photo : photos) {
-                        String content = "";
-                        content += "ID: " + photo.getId() + "\n";
-                        content += "Author: " + photo.getAuthor() + "\n";
-                        content += "Width: " + photo.getWidth() + "\n";
-                        content += "Height: " + photo.getHeight() + "\n";
-                        content += "DownloadUrl: " + photo.getDownload_url() + "\n";
-                        content += "Url: " + photo.getUrl() + "\n\n";
-                        mApiResult.append(content);
-                    }
-                }
+
+                    listAdapter = new PhotoListAdapter(getApplicationContext(), response.body());
+                    recyclerView.setAdapter(listAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
             }
 
             @Override
             public void onFailure(Call<List<PhotosModel>> call, Throwable t) {
-                mApiResult.setText(t.getMessage());
+                Toast.makeText(MainActivity.this, "Error: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
